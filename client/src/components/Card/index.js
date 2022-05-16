@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 function Card({item}) {
   return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="3">
+    <Box borderWidth="1px" borderRadius="lg" backgroundColor="#eee" overflow="hidden" p="3">
       <Link to={`/product/${item._id}`}>
-        <Image src={item.image} alt="product" loading="lazy" />
-        <Box p="6">
+        <Image src={item.image} boxSize="10rem"   objectFit="fill" alt="product" loading="lazy" />
+        <Box p="6" w="auto" h="15rem">
           <Box d="flex" alignItems="baseline">
             {moment(item.createdAt).format("DD/MM/YYYY")}
           </Box>
