@@ -5,7 +5,7 @@ import { fetchProductList } from "../../api";
 
 function Products() {
   const { isLoading, error, data } = useQuery('products', fetchProductList)
-console.log(data)
+
 if (isLoading) return 'Loading...'
 
 if (error) return 'An error has occurred: ' + error.message;
