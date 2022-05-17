@@ -1,4 +1,5 @@
 import React from "react";
+import {useAuth} from "../../../contexts/AuthContext";
 import {
   Flex,
   Box,
@@ -14,6 +15,7 @@ import validationSchema from "./validations";
 import { fetchRegister } from "../../../api";
 
 function Signup() {
+  const {login} = useAuth()
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -25,6 +27,7 @@ function Signup() {
     onSubmit: async (values, bag) => {
       try {
         const registerResponse = await fetchRegister({email: values.email, password: values.password})
+        login(registerResponse)
         console.log(registerResponse)
 
       }catch (err) {
