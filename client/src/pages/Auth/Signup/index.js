@@ -1,5 +1,5 @@
 import React from "react";
-import {useAuth} from "../../../contexts/AuthContext";
+import { useAuth } from "../../../contexts/AuthContext";
 import {
   Flex,
   Box,
@@ -8,14 +8,17 @@ import {
   FormLabel,
   Input,
   Button,
-  Alert
+  Alert,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import validationSchema from "./validations";
 import { fetchRegister } from "../../../api";
+import {  useNavigate } from "react-router-dom";
 
 function Signup() {
-  const {login} = useAuth()
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -26,12 +29,15 @@ function Signup() {
 
     onSubmit: async (values, bag) => {
       try {
-        const registerResponse = await fetchRegister({email: values.email, password: values.password})
-        login(registerResponse)
-        console.log(registerResponse)
-
-      }catch (err) {
-        bag.setErrors({general: err.response.data.message})
+        const registerResponse = await fetchRegister({
+          email: values.email,
+          password: values.password,
+        });
+        login(registerResponse);
+        navigate("/profile")
+        console.log(registerResponse);
+      } catch (err) {
+        bag.setErrors({ general: err.response.data.message });
       }
     },
   });
@@ -42,14 +48,10 @@ function Signup() {
           <Box textAlign="center">
             <Heading>Sign Up</Heading>
           </Box>
-          <Box my="5" >
-            {
-              formik.errors.general && (
-                <Alert status="error">
-                  {formik.errors.general}
-                </Alert>
-              )
-            }
+          <Box my="5">
+            {formik.errors.general && (
+              <Alert status="error">{formik.errors.general}</Alert>
+            )}
           </Box>
           <Box my="5" textAlign="left">
             <form onSubmit={formik.handleSubmit}>
@@ -84,19 +86,22 @@ function Signup() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.passwordConfirm}
-                  isInvalid={formik.touched.passwordConfirm && formik.errors.passwordConfirm}
+                  isInvalid={
+                    formik.touched.passwordConfirm &&
+                    formik.errors.passwordConfirm
+                  }
                 />
               </FormControl>
-            
-            <Button
-              mt="4"
-              width="full"
-              type="submit"
-              backgroundColor="blue"
-              color="white"
-            >
-              Sign Up
-            </Button>
+
+              <Button
+                mt="4"
+                width="full"
+                type="submit"
+                backgroundColor="blue"
+                color="white"
+              >
+                Sign Up
+              </Button>
             </form>
           </Box>
         </Box>
