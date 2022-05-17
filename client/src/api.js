@@ -1,19 +1,52 @@
-import axios from "axios"
+import axios from "axios";
 
-export const fetchProductList = async({ pageParam = 0 }) => {
-    const {data} = await axios.get(`${process.env.REACT_APP_BASE_ENDPOINT}/product?page=${pageParam}`);
+// Add a request interceptor
+axios.interceptors.request.use(function (config) {
+    const {origin} = new URL(config.url)
 
-    return data
-}
+    const allowedOrigins = [process.env.REACT_APP_BASE_ENDPOINT];
+    const token = localStorage.getItem('access-token');
 
-export const fetchProduct = async(id) => {
-    const {data} = await axios.get(`${process.env.REACT_APP_BASE_ENDPOINT}/product/${id}`)
+    if (allowedOrigins.includes(origin)) {
+        config.headers.authorization = token
+    }
+    // Do something before request is sent
+    return config;
+  }, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  });
 
-    return data
-}
+
+export const fetchProductList = async ({ pageParam = 0 }) => {
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/product?page=${pageParam}`
+  );
+
+  return data;
+};
+
+export const fetchProduct = async (id) => {
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/product/${id}`
+  );
+
+  return data;
+};
 
 export const fetchRegister = async (input) => {
-    const {data} = await axios.post(`${process.env.REACT_APP_BASE_ENDPOINT}/auth/register`, input);
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/auth/register`,
+    input
+  );
 
-    return data;
-}
+  return data;
+};
+
+export const fetchMe = async () => {
+  const { data } = await axios.get(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/auth/me`
+  );
+
+  return data;
+};
