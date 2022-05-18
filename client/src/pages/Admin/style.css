@@ -1,0 +1,9 @@
+.admin-menu {
+    display: flex;
+    margin:0px;
+    padding:0px;
+}
+
+.admin-menu li {
+    padding: 0 10px;
+}
