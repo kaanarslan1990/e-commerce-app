@@ -10,7 +10,7 @@ function ProductDetail() {
   const { product_id } = useParams();
   const { addToBasket, items } = useBasket();
 
-  const { isLoading, isError, data } = useQuery(["product", "product_id"], () =>
+  const { isLoading, isError, data } = useQuery(["product", product_id], () =>
     fetchProduct(product_id)
   );
 
@@ -28,11 +28,11 @@ function ProductDetail() {
 
   return (
     <div>
-      <Button colorScheme={findBasketItem ? "purple" : "green"} onClick={() => addToBasket(data, findBasketItem)}>
-        
-        {
-          findBasketItem ? "Remove from basket" : "Add to basket"
-        }
+      <Button
+        colorScheme={findBasketItem ? "purple" : "green"}
+        onClick={() => addToBasket(data,findBasketItem)}
+      >
+        {findBasketItem ? "Remove from basket" : "Add to basket"}
       </Button>
       <Text as="h2" fontSize="2xl">
         {data.title}
@@ -41,7 +41,7 @@ function ProductDetail() {
 
       <p>{data.description}</p>
       <Box margin="10">
-        <ImageGallery items={images} />
+        <ImageGallery items={images} showThumbnails={false} />
       </Box>
     </div>
   );
