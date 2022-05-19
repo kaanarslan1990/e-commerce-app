@@ -7,7 +7,7 @@ function ProtectedRoute({ admin, children }) {
   if (admin && user.role !== 'admin') {
     return <Navigate to="/" />
   }
-  return loggedIn ? children : <Navigate to="/profile" />
+  return loggedIn ? children : <Navigate to="/" />
 }
 
 export default ProtectedRoute

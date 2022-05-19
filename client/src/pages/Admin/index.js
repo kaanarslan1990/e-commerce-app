@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import Products from "./Products";
 import Home from "./Home";
 import Orders from "./Orders";
@@ -13,13 +13,13 @@ function Admin() {
       <nav>
         <ul className="admin-menu">
           <li>
-            <NavLink to="/admin">Home</NavLink>
+            <Link to="/admin">Home</Link>
           </li>
           <li>
-            <NavLink to="/admin/orders">Orders</NavLink>
+            <Link to="/admin/orders">Orders</Link>
           </li>
           <li>
-            <NavLink to="/admin/products">Product</NavLink>
+            <Link to="/admin/products">Product</Link>
           </li>
         </ul>
       </nav>
