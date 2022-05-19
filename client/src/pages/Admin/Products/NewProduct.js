@@ -1,7 +1,6 @@
 import React from "react";
-import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
-import { fetchProduct, updateProduct } from "../../../api";
+import { useMutation, useQueryClient } from "react-query";
+import { postProduct } from "../../../api";
 import { Formik, FieldArray } from "formik";
 import validationSchema from "./validations";
 import {
@@ -15,44 +14,45 @@ import {
 } from "@chakra-ui/react";
 import { message } from "antd";
 
-function ProductDetail() {
-  const { product_id } = useParams();
+function NewProduct() {
+  const queryClient = useQueryClient();
 
-  const { isLoading, isError, data, error } = useQuery(
-    ["admin:product", product_id],
-    () => fetchProduct(product_id)
-  );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Error {error.message}</div>;
-  }
+  const newProductMutation = useMutation(postProduct, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("admin:products");
+    },
+  });
   const handleSubmit = async (values, bag) => {
-    console.log("submitted");
+    console.log(values);
     message.loading({ content: "Loading...", key: "product_update" });
-    try {
-      await updateProduct(values, product_id);
+    // values.photos = JSON.stringify(values.photos);
 
-      message.success({
-        content: "The product successfully updated!",
-        key: "product_update",
-        duration: 2,
-      });
-    } catch (e) {
-        message.error("The product does not updated!")
-    }
+    const newValues = {
+      ...values,
+      photos: JSON.stringify(values.photos),
+    };
+
+    newProductMutation.mutate(newValues, {
+      onSuccess: () => {
+        console.log("success");
+        message.success({
+          content: "The product successfully updated!",
+          key: "product_update",
+          duration: 2,
+        });
+      },
+    });
   };
+
   return (
     <div>
-      <Text fontSize="2xl">Edit</Text>
+      <Text fontSize="2xl">New Product</Text>
       <Formik
         initialValues={{
-          title: data.title,
-          description: data.description,
-          price: data.price,
-          photos: data.photos,
+          title: "Test",
+          description: "Ecommerce Product Test",
+          price: "111",
+          photos: [],
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
@@ -156,7 +156,7 @@ function ProductDetail() {
                     colorScheme="green"
                     isLoading={isSubmitting}
                   >
-                    Update
+                    Save
                   </Button>
                 </form>
               </Box>
@@ -168,4 +168,4 @@ function ProductDetail() {
   );
 }
 
-export default ProductDetail;
+export default NewProduct;

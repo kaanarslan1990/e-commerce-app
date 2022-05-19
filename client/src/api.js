@@ -28,6 +28,13 @@ export const fetchProductList = async ({ pageParam = 0 }) => {
   return data;
 };
 
+export const postProduct = async (input) => {
+  const { data } = await axios.post(
+    `${process.env.REACT_APP_BASE_ENDPOINT}/product/`, input
+  );
+
+  return data;
+};
 export const fetchProduct = async (id) => {
   const { data } = await axios.get(
     `${process.env.REACT_APP_BASE_ENDPOINT}/product/${id}`

@@ -12,7 +12,7 @@ function Card({item}) {
   return (
     <Box borderWidth="1px" borderRadius="lg" backgroundColor="#eee" overflow="hidden" p="3">
       <Link to={`/product/${item._id}`}>
-        <Image src={item.image} boxSize="10rem"   objectFit="fill" alt="product" loading="lazy" />
+        <Image src={item.photos[0]} boxSize="10rem"   objectFit="fill" alt="product" loading="lazy" />
         <Box p="6" w="auto" h="15rem">
           <Box d="flex" alignItems="baseline">
             {moment(item.createdAt).format("DD/MM/YYYY")}

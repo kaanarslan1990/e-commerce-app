@@ -6,6 +6,7 @@ import Home from "./Home";
 import Orders from "./Orders";
 import "./style.css";
 import ProductDetail from "./ProductDetail";
+import NewProduct from "./Products/NewProduct";
 
 function Admin() {
     // const {path, url} = useMatch();
@@ -30,6 +31,7 @@ function Admin() {
           <Route path="/" element={<Home />}/>
           <Route path="/orders" element={<Orders />}/>
           <Route path="/products" element={<Products />}/>
+          <Route path="/products/new" element={<NewProduct />}/>
           <Route path="/products/:product_id" element={<ProductDetail />}/>
         </Routes>
       </Box>
